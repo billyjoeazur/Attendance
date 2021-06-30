@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewmodels="clr-namespace:Attendance.ViewModels"
+             mc:Ignorable="d"
+             x:Class="Attendance.Views.LoginPage"
+             Shell.NavBarIsVisible="False"
+             x:DataType="viewmodels:LoginViewModel"
+             Title="Login"
+             x:Name="UserPage">
+    <ContentPage.BindingContext>
+        <viewmodels:LoginViewModel/>
+    </ContentPage.BindingContext>
+
+    <RelativeLayout>
+        <Image Source="loginBG3.jpg" Aspect="Fill"/>
+        <Grid RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width}"
+              RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height}">
+            <StackLayout Padding="50,100,50,0" VerticalOptions="Center" Spacing="50">
+                <Label Text="Login" FontSize="Large" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="White"/>
+                <Frame Opacity=".75">
+                    <StackLayout Spacing="12">
+                        <Entry Text="{Binding UserName, Mode=TwoWay}" Placeholder="Employee ID" PlaceholderColor="Gray"/>
+                        <Entry Text="{Binding Password}" Placeholder="Password" IsPassword="True" PlaceholderColor="Gray"/>
+                        <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}" BackgroundColor="#3C99E3" TextColor="White"/>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </Grid>
+        
+    </RelativeLayout>
+    
+    
+    
+</ContentPage>

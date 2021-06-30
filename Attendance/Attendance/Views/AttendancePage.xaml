@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewmodels="clr-namespace:Attendance.ViewModels" 
+             xmlns:model="clr-namespace:Attendance.Models"
+             x:Class="Attendance.Views.AttendancePage"
+             x:DataType="viewmodels:AttendanceViewModel"
+             Title="Attendance">
+    <ContentPage.BindingContext>
+        <viewmodels:AttendanceViewModel/>
+    </ContentPage.BindingContext>
+
+    <RelativeLayout>
+        <Image Source="loginBG3.jpg" Aspect="Fill"/>
+        <Grid RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width}"
+              RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height}">
+            <StackLayout>
+                <Grid BackgroundColor="LightBlue">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="From:" Grid.Row="0" Grid.Column="0" Padding="0,14,0,0"></Label>
+                    <DatePicker Date="{Binding StartDate}" Grid.Row="0" Grid.Column="1" FontSize="Small"></DatePicker>
+                    <Label Text="To:" Grid.Row="0" Grid.Column="2" Padding="0,14,0,0"></Label>
+                    <DatePicker Date="{Binding EndDate}" Grid.Row="0" Grid.Column="3" FontSize="Small"></DatePicker>
+                    <Label Text="Hours:" Grid.Row="0" Grid.Column="5" Padding="0,14,0,0" HorizontalTextAlignment="End"></Label>
+                    <Label Text="{Binding TotalHours, Mode=TwoWay}" Grid.Row="0" Grid.Column="6" Padding="0,14,0,0"></Label>
+
+                </Grid>
+
+                <ListView ItemsSource="{Binding EmployeeList}" IsPullToRefreshEnabled="True">
+                    <ListView.Header>
+                        <Grid BackgroundColor="LightBlue">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="Date" HorizontalOptions="Fill"  Grid.Column="0"   FontSize="Small" FontAttributes="Bold" BackgroundColor="MediumBlue" TextColor="White" HorizontalTextAlignment="Center" Margin="1"/>
+                            <Label Text="In" HorizontalOptions="Fill"  Grid.Column="1"  FontSize="Small" FontAttributes="Bold" BackgroundColor="MediumBlue" TextColor="White" HorizontalTextAlignment="Center" Margin="1"/>
+                            <Label Text="Out" HorizontalOptions="Fill"  Grid.Column="2"  FontSize="Small" FontAttributes="Bold" BackgroundColor="MediumBlue" TextColor="White" HorizontalTextAlignment="Center" Margin="1"/>
+                            <Label Text="In" HorizontalOptions="Fill"  Grid.Column="3"  FontSize="Small" FontAttributes="Bold" BackgroundColor="MediumBlue" TextColor="White" HorizontalTextAlignment="Center" Margin="1"/>
+                            <Label Text="Out" HorizontalOptions="Fill"  Grid.Column="4"  FontSize="Small" FontAttributes="Bold" BackgroundColor="MediumBlue" TextColor="White" HorizontalTextAlignment="Center" Margin="1"/>
+                        </Grid>
+
+                    </ListView.Header>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell x:DataType="model:Employee">
+                                <Grid BackgroundColor="LightBlue">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="37"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Text ="{Binding Date}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>
+                                    <Label Grid.Column="1" Text ="{Binding In1}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>
+                                    <Label Grid.Column="2" Text ="{Binding Out1}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>
+                                    <Label Grid.Column="3" Text ="{Binding In2}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>
+                                    <Label Grid.Column="4" Text ="{Binding Out2}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                </ListView>
+            </StackLayout>
+
+
+        </Grid>
+    </RelativeLayout>
+    
+</ContentPage>
