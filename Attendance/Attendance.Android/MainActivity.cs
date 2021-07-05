@@ -6,6 +6,12 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Attendance.Services;
+using Xamarin.Essentials;
+using Xamarin.Forms;
+using Attendance.Droid;
+
+[assembly:Dependency(typeof(Toaster))]
 
 namespace Attendance.Droid
 {
@@ -30,4 +36,12 @@ namespace Attendance.Droid
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
+
+	public class Toaster : IToast
+	{
+		public void MakeToast(string message)
+		{
+            Toast.MakeText(Platform.AppContext, message, ToastLength.Long).Show();
+		}
+	}
 }

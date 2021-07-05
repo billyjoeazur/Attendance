@@ -22,17 +22,13 @@ namespace Attendance.ViewModels
 
 		public string UserName { get; set; }
 		public string Password { get; set; }
-		public ObservableRangeCollection<User> UserList { get; set; }
 		public AsyncCommand LoadNewUserCommand { get; }
 		public AsyncCommand LoginCommand { get; }
 
 		public LoginViewModel()
 		{
-			
-			UserList = new ObservableRangeCollection<User>();
 			LoadNewUserCommand = new AsyncCommand(OnLoadNewUser);
 			LoginCommand = new AsyncCommand(Login);
-
 		}
 
 		public async Task<bool> IsReachable()
@@ -47,13 +43,14 @@ namespace Attendance.ViewModels
 		{
 			try
 			{
-				bool result = await LoginService.Login(UserName, Password);
+				bool result = await LoginService.Login(UserName, LoginService.HashPassword(Password));
 				if (result)
 				{
 					Application.Current.MainPage = new AppShell();
 					var getProfile = await ProfileService.CheckProfile(UserName);
 					var fullname = $"{getProfile.FirstName} {getProfile.LastName}";
 					var route = $"//{nameof(AttendancePage)}?MyId={UserName}&myfullname={fullname}";
+					DependencyService.Get<IToast>()?.MakeToast("Login");
 					await Shell.Current.GoToAsync(route);
 				}
 				else
@@ -74,6 +71,7 @@ namespace Attendance.ViewModels
 				HttpClient myClient = new HttpClient();
 				if (await IsReachable())
 				{
+					DependencyService.Get<IToast>()?.MakeToast("Connected...");
 					HttpResponseMessage response = await myClient.GetAsync(uri);
 					if (response.IsSuccessStatusCode)
 					{
@@ -82,9 +80,13 @@ namespace Attendance.ViewModels
 						var Items = JsonConvert.DeserializeObject<ObservableCollection<User>>(content);
 						foreach (var item in Items)
 						{
-							await LoginService.AddUser(item.Id, item.Password);
+							await LoginService.AddUser(item.Id,item.Password);
 						}
 					}
+				}
+				else
+				{
+					DependencyService.Get<IToast>()?.MakeToast("Not Connected");
 				}
 			}
 			catch (Exception e)

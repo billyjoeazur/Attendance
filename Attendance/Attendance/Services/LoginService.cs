@@ -7,11 +7,21 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using System.Security.Cryptography;
 
 namespace Attendance.Services
 {
     public static class LoginService
     {
+		public static string HashPassword(string password)
+		{
+			SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider();
+			byte[] password_bytes = Encoding.ASCII.GetBytes(password);
+			byte[] encrypted_bytes = sha1.ComputeHash(password_bytes);
+			return Convert.ToBase64String(encrypted_bytes);
+		}
+
+
 		static SQLiteAsyncConnection db;
 		static async Task Init()
 		{
